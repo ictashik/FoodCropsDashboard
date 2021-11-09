@@ -1,0 +1,600 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    
+    <title>Dashboard - Food Crops Production of India</title>
+    <!-- This page CSS -->
+    <!-- chartist CSS -->
+    <!-- ============================================================== -->
+    <!-- TEST Starts -->
+    <!-- ============================================================== -->
+
+    
+
+        <!-- ============================================================== -->
+        <link href="{% static 'assets/plugins/uniform/css/default.css' %}" rel="stylesheet"/>
+        <link href="{% static 'assets/plugins/offcanvasmenueffects/css/menu_cornerbox.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- TEST ends -->
+    <!-- ============================================================== -->
+    
+
+        
+        <link href="{% static 'assets/node_modules/morrisjs/morris.css' %}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    
+    <!--Toaster Popup message CSS -->
+    <link href="{% static 'assets/node_modules/toast-master/css/jquery.toast.css' %}" rel="stylesheet" type="text/css"/>
+    <script src="{% static 'assets/plugins/offcanvasmenueffects/js/classie.js' %}"></script>
+    <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/map.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/leaflet.css' %}" rel="stylesheet" type="text/css"/>
+    
+    <!-- Custom CSS -->
+    
+    
+    <!-- Dashboard 1 Page CSS -->
+    <link href="{% static 'dist/css/pages/dashboard1.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/node_modules/sparkline/jquery.sparkline.min.js' %}" rel="stylesheet" type="text/css"/>
+    
+    
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+      integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+      crossorigin=""></script>
+      
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+     
+      <link href="{% static 'assets/plugins/datatables/css/jquery.datatables.min.css' %}" rel="stylesheet" type="text/css"/>
+      <link href="{% static 'assets/plugins/datatables/css/jquery.datatables_themeroller.css' %}" rel="stylesheet" type="text/css"/>
+      <link href="{% static 'assets/plugins/bootstrap-datepicker/css/datepicker3.css' %}" rel="stylesheet" type="text/css"/>
+      <script src="{% static 'assets/plugins/datatables/js/jquery.datatables.min.js' %}"></script>
+
+
+      
+    <script>
+        $(function () {
+            "use strict";
+        //     This is for the Notification top right
+            $.toast({
+                    heading: 'Welcome to FCPI Dashboard '
+                    , text: 'Select Year and Crop, then Click Visualize.'
+                    , position: 'top-right'
+                    , loaderBg: '#ff6849'
+                    , icon: 'info'
+                    , hideAfter: 3500
+                    , stack: 6
+                })
+         
+        
+        });    </script>
+
+      <!-- Data for Map Rendering Starts -->
+    <script>          
+        {% if JSONDistrictData %}
+        var data = [
+        {% for i in JSONDistrictData %}
+            {
+               "State": "{{ i.State }}",
+               "District": "{{i.District}}",
+               "Number-of-Reports": {{i.Production}},
+            },
+            {%endfor%}
+        ];
+        {%endif%}
+    </script>
+
+    <script>
+
+
+
+    </script>
+    <!-- Data for Map Rendering ENDS -->
+    <!-- Style for Maps -->
+   
+    <!-- Style for Maps ENDS -->
+</head>
+
+<body class="logo-center skin-purple fix-sidebar mini-sidebar">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Food Corps of India - Dashboard</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                     </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav me-auto">
+                        <!-- This is  -->
+                        <!-- <li class="nav-item"> <a class="nav-link nav-toggler d-block d-md-none waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li> -->
+                        <!-- <li class="nav-item"> <a class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark" href="javascript:void(0)"><i class="icon-menu"></i></a> </li> -->
+                        <!-- ============================================================== -->
+                        <!-- Search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item">
+                            
+                        </li>
+                        
+                    </ul>
+                    <h4 style="float: right; color: blanchedalmond;">Dashboard - Food Crops Production in India &nbsp;</h4>
+                    <!-- ============================================================== -->
+              
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                      
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                 
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                
+                        <!-- ============================================================== -->
+                        
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- <aside class="left-sidebar"> -->
+            <!-- Sidebar scroll-->
+            <!-- <div class="scroll-sidebar"> -->
+                <!-- Sidebar navigation-->
+                <!-- <nav class="sidebar-nav "> -->
+                    
+                <!-- </nav> -->
+                <!-- End Sidebar navigation -->
+            <!-- </div> -->
+            <!-- End Sidebar scroll-->
+        <!-- </aside> -->
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <form  method="POST">
+                    {%csrf_token%}
+                <div class="row page-titles">
+                    <div class="col-md-1 align-self-center">
+                        <h5 class="text-themecolor">Year</h5>
+                    </div>
+                    <div class="col-md-1 align-self-center">
+                        <select class="form-select col-12" id="cmbYear" name="cmbYear">
+                            {% for item in YearsArray %}
+                            <option value="{{ item }}" {% if item == year%} selected {%endif%} >{{ item }}</option>
+                        {% endfor%}
+                        </select>
+                    </div>
+                    <div class="col-md-1 align-self-center">
+                        <h5 class="text-themecolor">Crop</h5>
+                    </div>
+                    <div class="col-md-2 align-self-center">
+                        <select class="form-select col-12" id="cmbCrop" name="cmbCrop">
+                            {% for item in CropsArray %}
+                                <option value="{{ item }}"  {% if item == crop%} selected {%endif%}>{{ item }}</option>
+                            {% endfor%}
+                        </select>
+                    </div>
+
+                    <div class="col-md-5 align-self-center text-end">
+                         <input type="submit" value="Visualize" class="btn btn-danger d-none d-lg-block m-l-15 text-white" ></i></input>
+                    </div>
+                    </div>
+                </form>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Info box -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="d-flex flex-row">
+                                <div class="p-10 bg-info">
+                                    <h3 class="text-white box m-b-0"><i class="ti-truck"></i></h3></div>
+                                <div class="align-self-center m-l-20">
+                                    <h3 class="m-b-0 text-info">{{TotalProduction}}</h3>
+                                    <h5 class="text-muted m-b-0">Tonnes Produced in {{year}}</h5></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="d-flex flex-row">
+                                <div class="p-10 bg-success">
+                                    <h3 class="text-white box m-b-0"><i class="ti-wallet"></i></h3></div>
+                                <div class="align-self-center m-l-20">
+                                    <h3 class="m-b-0 text-success">{{MaxProduction}}</h3>
+                                    <h5 class="text-muted m-b-0">Maximum Production</h5></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="d-flex flex-row">
+                                <div class="p-10 bg-inverse">
+                                    <h3 class="text-white box m-b-0"><i class="ti-stats-up"></i></h3></div>
+                                <div class="align-self-center m-l-20">
+                                    <h3 class="m-b-0">{{CountDistricts}}</h3>
+                                    <h5 class="text-muted m-b-0">Districts Produced</h5></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="d-flex flex-row">
+                                <div class="p-10 bg-primary">
+                                    <h3 class="text-white box m-b-0"><i class="ti-split-v-alt"></i></h3></div>
+                                <div class="align-self-center m-l-20">
+                                    <h3 class="m-b-0 text-primary">{{AP|floatformat:2}}</h3>
+                                    <h5 class="text-muted m-b-0">Average Production</h5></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+
+                
+                <!-- ============================================================== -->
+                <!-- End Info box -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Over Visitor, Our income , slaes different and  sales prediction -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card"  >
+                            <div class="card-body">
+                                <div class="d-flex m-b-40 align-items-center no-block">
+                                    <h5 class="card-title ">District Wise {{crop}} Production of {{year}}</h5>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div data-behaviour="choropleth-map"></div>
+                                            <div id='map2'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-lg-6 col-md-12">
+                        <div class="row">
+                         <div class="col-lg-6 col-md-12">
+                       
+                             <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body analytics-info">
+                                        <h5 class="card-title">Production Trends</h5>
+                                        <div class="stats-row">
+                                            {% if JSONCropData %}
+                                            <div class="stat-item">
+                                                <h6>Year</h6>
+                                                <h6>Production</h6></div>
+                                                {% for i in JSONCropData %}
+                                                        <div class="stat-item">
+                                                        <h6 style="text-align: center;">{{i.Year}}</h6>
+                                                        <b>{{i.Production}}</b></div>
+                                                        {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div id="ProductionTrend"><canvas width="514" height="50" style="display: inline-block; width: 554.328px; height: 50px; vertical-align: top;"></canvas></div>
+                                        {% if JSONCropData %}
+                                        <script>
+                                                 window.addEventListener("load", function(){
+                                                            
+                                            $("#ProductionTrend").sparkline([{% for i in JSONCropData %} {{i.Production}},{%endfor%}], {
+                                                    type: 'line',
+                                                    width: '100%',
+                                                    height: '50',
+                                                    lineColor: '#13dafe',
+                                                    fillColor: '#13dafe',
+                                                    minSpotColor:'#13dafe',
+                                                    maxSpotColor: '#13dafe',
+                                                    highlightLineColor: 'rgba(0, 0, 0, 0.2)',
+                                                    highlightSpotColor: '#13dafe'
+                                                });
+                                            });
+                                        </script>
+                                            {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <!-- column -->
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Records</h6>
+                                                    <div class="d-flex xs-t-20 xs-b-10 no-block align-items-center">
+                                                        <span class="display-6 text-info"><i class="icon-doc"></i></span>
+                                                        <a href="javscript:void(0)" class="link display-6 ms-auto">{{CountRecords}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- column -->
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">Districts</h6>
+                                                    <div class="d-flex xs-t-30 xs-b-20 no-block align-items-center">
+                                                        <span class="display-6 text-purple"><i class="icon-graph"></i></span>
+                                                        <a href="javscript:void(0)" class="link display-6 ms-auto">{{CD}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- column -->
+                                       
+                                        <!-- column -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                         </div>
+                      
+                            <!-- Column -->
+                     <div class="col-lg-6">
+                                <div class="card" >
+                                    <div class="card-body">
+                                        <div class="col-lg-12">                                     
+                                                    <h5 class="card-title">State vs. Production Pie  </h4>
+                                                    <div id="morris-donut-chart" ></div>
+                                                    {% if JSONStateData %}
+                                                        <script type="text/javascript">
+                                                            window.addEventListener("load", function(){
+                                                            Morris.Donut({
+                                                            element: 'morris-donut-chart',
+                                                            data: [
+                                                                {% for i in JSONStateData%}
+                                                            { label: '{{ i.State }}', value:  {{i.Production}} },
+                                                            {%endfor%}
+                                                            ],
+                                                            resize: true,
+                                                            colors:['#009efb', '#55ce63', '#2f3d4a','#c44949',,]
+                                                            });
+                                                        });
+
+                                                        </script>
+                                                        {%endif%}
+
+                                               
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            <!-- Column -->
+                     
+                            <!-- Column -->
+                        </div>
+                    </div> 
+                    
+                    <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div>
+                                        <h5 class="card-title">Production Overview</h5>
+                                        <h6 class="card-subtitle">Statewise Production Summary</h6>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class="card-body bg-light">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h3>{{year}}</h3>
+                                        <h5 class="font-light m-t-0">{{crop}}</h5></div>
+                                    <div class="col-6 align-self-center display-6 text-end">
+                                        <h2 class="text-success">{{TotalProduction}} Tonnes</h2></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="example" class="table color-table muted-table">
+                                    <thead>
+                                        <tr>
+                                            <th>State</th>
+                                            <th>Production in Tonnes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      
+                                        {% if JSONStateData %}
+                                        {% for i in JSONStateData %}
+                                        <tr >
+            
+                                       
+                                            <td >{{i.State}}</td>
+                                            <td >{{i.Production}}</td>
+                                        </tr>
+            
+                                        {%endfor%}
+                                        {%endif%}                 
+                                        
+                                       
+                                    </tbody>
+                                   </table>  
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                </div>
+
+               
+                 </div>
+
+            
+                <!-- ============================================================== -->
+                <!-- End Comment - chats -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Over Visitor, Our income , slaes different and  sales prediction -->
+                <!-- ============================================================== -->
+               
+                <!-- ============================================================== -->
+                <!-- End Page Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Todo, chat, notification -->
+                <!-- ============================================================== -->
+              
+                <!-- ============================================================== -->
+                <!-- End Page Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+            
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
+       
+        <!-- ============================================================== -->
+        <!-- End footer -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{% static 'assets/node_modules/jquery/dist/jquery.min.js' %}"></script>
+    
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="{% static 'dist/js/perfect-scrollbar.jquery.min.js' %}"></script>
+    
+    <!--Wave Effects -->
+    <script src="{% static 'dist/js/waves.js' %}"></script>
+    
+    <!--Menu sidebar -->
+    <script src="{% static 'dist/js/sidebarmenu.js' %}"></script>
+    
+    <!--Custom JavaScript -->
+    <script src="{% static 'dist/js/custom.js' %}"></script>
+
+    <script src="{% static 'js/countrymap.js' %}"></script>
+    <script src="{% static 'js/choropleth.js' %}"></script>
+    <script src="{% static 'js/leaflet.geocsv.js' %}"></script>
+    <script src="{% static 'js/india_dist_662.js' %}"></script>
+    <script src="{% static 'js/states.js' %}"></script>
+
+    
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!--morris JavaScript -->
+    <script src="{% static 'assets/node_modules/raphael/raphael-min.js' %}"></script>
+    <script src="{% static 'assets/node_modules/morrisjs/morris.min.js' %}"></script>
+    <script src="{% static 'assets/node_modules/morrisjs/morris.js' %}"></script>
+    <script src="{% static 'assets/node_modules/jquery-sparkline/jquery.sparkline.min.js' %}"></script>
+   
+    <!-- Popup message jquery -->
+    <script src="{% static 'assets/node_modules/toast-master/js/jquery.toast.js' %}"></script>
+    
+    <!-- Chart JS -->
+    <!-- <script src="{% static 'dist/js/dashboard1.js' %}"></script> -->
+    
+    <script src="{% static 'assets/node_modules/toast-master/js/jquery.toast.js' %}"></script>
+    <!-- <script src="{% static 'assets/node_modules/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/node_modules/datatables.net-bs4/js/dataTables.responsive.min.js' %}"></script> -->
+
+    <script>
+        $(document).ready(function(){
+            $("cmbYear").val("{{year}}").change();
+         });
+    </script>
+
+</body>
+
+<!-- Data for Map Rendering  -->
+
+
+
+</html>
